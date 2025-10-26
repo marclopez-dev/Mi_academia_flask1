@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Mi Academia</title></head>
+<body>
+  <h1>📚 Bienvenido a la Academia</h1>
+  {% if current_user.is_authenticated %}
+    <p>Hola, {{ current_user.username }} | <a href="/logout">Cerrar sesión</a></p>
+    <a href="/upload">Subir documento</a>
+  {% else %}
+    <a href="/login">Iniciar sesión</a> | <a href="/register">Registrarse</a>
+  {% endif %}
+  <hr>
+  <ul>
+    {% for archivo in archivos %}
+      <li>{{ archivo }} - <a href="{{ url_for('descargar', nombre=archivo) }}">Descargar</a></li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
