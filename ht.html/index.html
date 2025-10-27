@@ -1,14 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head><title>Iniciar sesión</title></head>
+<head><title>Mi Academia</title></head>
 <body>
-  <h1>Iniciar sesión</h1>
-  <form method="post">
-    Usuario: <input type="text" name="username"><br>
-    Contraseña: <input type="password" name="password"><br>
-    <button type="submit">Entrar</button>
-  </form>
-  <p>¿No tienes cuenta? <a href="/register">Regístrate</a></p>
-  <a href="/">Volver</a>
+  <h1>📚 Bienvenidos a la academia Cerebritos Peruanos</h1>
+
+  {% if current_user.is_authenticated %}
+    <p>Hola, {{ current_user.username }} ({{ current_user.rol }}) | <a href="/logout">Cerrar sesión</a></p>
+
+    {% if current_user.rol == 'profesor' %}
+      <h2>Portal del Profesor</h2>
+      <p>Puedes subir nuevos materiales:</p>
+      <a href="/upload">Subir documento</a>
+
+    {% elif current_user.rol == 'estudiante' %}
+      <h2>Portal del Estudiante</h2>
+      <p>Puedes descargar materiales de tus clases:</p>
+    {% endif %}
+
+  {% else %}
+    <a href="/login">Iniciar sesión</a> | <a href="/register">Registrarse</a>
+  {% endif %}
+  
+  <hr>
+  <h3>Documentos disponibles</h3>
+  <ul>
+    {% for archivo in archivos %}
+      <li>{{ archivo }} - <a href="{{ url_for('descargar', nombre=archivo) }}">Descargar</a></li>
+    {% endfor %}
+  </ul>
 </body>
 </html>
