@@ -4,7 +4,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import os
 
 app = Flask(__name__)
-app.secret_key = "clave_super_secreta_cámbiala"  # ✅ Cambia esto por una clave propia
+app.secret_key = os.environ.get("SECRET_KEY", "clave_por_defecto_segura")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['UPLOAD_FOLDER'] = os.path.join('static', 'docs')
 
